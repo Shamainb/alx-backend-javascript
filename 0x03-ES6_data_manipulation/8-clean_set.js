@@ -4,19 +4,14 @@
  * @param {string} startString - The string that values must start with.
  * @returns {string} - A string containing values from the set, separated by '-'.
  */
-export default function cleanSet(set, startString) {
-  if (!(set instanceof Set)) {
-    throw new TypeError('The first argument must be a Set');
+const cleanSet = (set, startString) => {
+  if (startString === undefined || startString.length === 0) {
+    return '';
   }
-  if (typeof startString !== 'string') {
-    throw new TypeError('The second argument must be a string');
-  }
+  return [...set]
+    .filter((parametro) => (parametro !== undefined ? parametro.startsWith(startString) : ''))
+    .map((parametro) => (parametro !== undefined ? parametro.slice(startString.length) : ''))
+    .join('-');
+};
 
-  // Filter and transform set values
-  const filteredValues = Array.from(set)
-    .filter((value) => typeof value === 'string' && value.startsWith(startString))
-    .map((value) => value.slice(startString.length));
-
-  // Join the results with '-'
-  return filteredValues.join('-');
-}
+export default cleanSet;
