@@ -1,41 +1,37 @@
 const fs = require('fs');
 
-function countStudents(path) {
+function countStudents(fileName) {
+  const students = {};
+  const fields = {};
+  let length = 0;
   try {
-    const data = fs.readFileSync(path, 'utf8');
-
-    // Split the file into lines
-    const lines = data.split('\n').filter((line) => line.trim() !== '');
-
-    if (lines.length === 0) {
-      throw new Error('Cannot load the database');
-    }
-
-    const fields = {};
-    let totalStudents = 0;
-
-    for (const line of lines.slice(1)) {
-      if (line.trim() === '') continue; // skip empty lines
-      const [firstname, lastname, age, field] = line.split(',');
-
-      if (!fields[field]) {
-        fields[field] = [];
+    const fileContents = fs.readFileSync(fileName, 'utf-8');
+    const lines = fileContents.toString().split('\n');
+    for (let i = 0; i < lines.length; i += 1) {
+      if (lines[i]) {
+        length += 1;
+        const field = lines[i].toString().split(',');
+        if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+          students[field[3]].push(field[0]);
+        } else {
+          students[field[3]] = [field[0]];
+        }
+        if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+          fields[field[3]] += 1;
+        } else {
+          fields[field[3]] = 1;
+        }
       }
-
-      fields[field].push(firstname);
-      totalStudents++;
     }
-
-    console.log(`Number of students: ${totalStudents}`);
-
-    for (const field in fields) {
-      const count = fields[field].length;
-      const list = fields[field].join(', ');
-      console.log(`Number of students in ${field}: ${count}. List: ${list}`);
+    const l = length - 1;
+    console.log(`Number of students: ${l}`);
+    for (const [key, value] of Object.entries(fields)) {
+      if (key !== 'field') {
+        console.log(`Number of students in ${key}: ${value}. List: ${students[key].join(', ')}`);
+      }
     }
-  } catch (err) {
-    console.error('Cannot load the database');
-    throw err;
+  } catch (error) {
+    throw Error('Cannot load the database');
   }
 }
 
