@@ -1,35 +1,36 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-import calculateNumber from "./2-calcul_chai.js";
+const expect = require("chai").expect;
+const {describe, it} = require("mocha");
+const calculateNumber = require("./2-calcul_chai");
 
-describe("calculateNumber()", function() {
-    it(`should return 3 when SUM is used with 1 and 2`, function() {
-        const res = calculateNumber("SUM", 1, 2);
-        expect(res).to.equal(3);
+describe("calculateNumber", function() {
+    describe("SUM", function() {
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("SUM", 1, 2)).to.equal(3);
+	});
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("SUM", 1.6, 2.6)).to.equal(5);
+	});
     });
-
-    it(`should return -1 when SUBTRACT is used with 1.4 and 2.2`, function() {
-        const res = calculateNumber("SUBTRACT", 1.4, 2.2);
-        expect(res).to.equal(-1);
+    describe("SUBTRACT", function() {
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("SUBTRACT", 1.4, 2.3)).to.equal(-1);
+	});
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("SUBTRACT", 4.9, 2.7)).to.equal(2);
+	});
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("SUBTRACT", -4.9, -2.7)).to.equal(-2);
+	});
     });
-
-    it(`should return 2 when SUBTRACT is used with 4.9 and 2.7`, function() {
-        const res = calculateNumber("SUBTRACT", 4.9, 2.7);
-        expect(res).to.equal(2);
-    });
-
-    it(`should return 2 when DIVIDE is used with 4 and 2`, function() {
-        const res = calculateNumber("DIVIDE", 4, 2);
-        expect(res).to.equal(2);
-    });
-
-    it(`should return "Error" when DIVIDE is used with 1.7 and 0`, function() {
-        const res = calculateNumber("DIVIDE", 1.7, 0);
-        expect(res).to.equal("Error");
-    });
-
-    it(`should return 0.2 when DIVIDE is used with 1.4 and 4.6`, function() {
-        const res = calculateNumber("DIVIDE", 1.4, 4.6);
-        expect(res).to.equal(0.2);
+    describe("DIVIDE", function() {
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("DIVIDE", 4, 2)).to.equal(2);
+	});
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("DIVIDE", 4.6, 1.8)).to.equal(2.5);
+	});
+	it("checking if numbers round", function() {
+	    expect(calculateNumber("DIVIDE", 4, 0)).to.equal("Error");
+	});
     });
 });
